@@ -7,6 +7,8 @@ package it.unipd.mtss.model;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.fail;
+
 public class EItemTest {
     private EItem mouse, keyboard;
 
@@ -20,16 +22,19 @@ public class EItemTest {
     @Test(expected = IllegalArgumentException.class)
     public void constructorWithNullNameTest() {
         new EItem(null, EItemType.KEYBOARD, 15.00);
+        fail();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void constructorWithNullTypeTest() {
         new EItem("???", null, 15.00);
+        fail();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void constructorWithNegativePriceTest() {
         new EItem("???", EItemType.KEYBOARD, -15.00);
+        fail();
     }
 
     @Test

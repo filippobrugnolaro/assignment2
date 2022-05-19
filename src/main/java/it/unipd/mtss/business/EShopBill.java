@@ -24,6 +24,7 @@ public class EShopBill implements Bill {
         }
 
         getProcessorDiscount(itemsOrdered);
+        getMouseDiscount(itemsOrdered);
 
         double totalAmount = itemsOrdered.stream()
                 .mapToDouble(EItem::getPrice)
@@ -45,6 +46,22 @@ public class EShopBill implements Bill {
 
             minItem.ifPresent(eItem -> eItem.setPrice(eItem.getPrice() * 0.5));
 
+        }
+    }
+
+    private void getMouseDiscount(List<EItem> itemsOrdered) {
+        long mouses = itemsOrdered.stream()
+                .filter(item -> item.getEItemType() == EItemType.MOUSE)
+                .count();
+
+
+        if(mouses > 10) {
+            Optional<EItem> minItem = itemsOrdered.stream()
+                    .filter(item -> item.getEItemType() == EItemType.MOUSE)
+                    .min((item1, item2) ->
+                            item1.getPrice() >= item2.getPrice() ? 1 : -1);
+
+            minItem.ifPresent(eItem -> eItem.setPrice(0));
         }
     }
 }

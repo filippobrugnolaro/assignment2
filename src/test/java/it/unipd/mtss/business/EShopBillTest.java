@@ -107,4 +107,75 @@ public class EShopBillTest {
         // Assert
         assert total == 360.00 - 30.00;
     }
+
+    @Test
+    public void lessThanTenMouseOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 5.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 6.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 130.00));
+        items.add(new EItem("Intel i5 xxx", EItemType.PROCESSOR, 73.41));
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 221.41;
+    }
+
+    @Test
+    public void moreThanTenMouseOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 5.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 6.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 5.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 6.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 5.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 6.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 5.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 6.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 67.00;
+    }
+
+    @Test
+    public void combinedMouseAndProcessorTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 5.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 6.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 5.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 6.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 5.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 6.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 5.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 6.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
+
+        for(int i = 0; i < 6; i++) {
+            items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 60.00));
+        }
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 360 - 30 + 72 - 5;
+    }
 }
