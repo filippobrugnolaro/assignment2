@@ -178,4 +178,113 @@ public class EShopBillTest {
         // Assert
         assert total == 360 - 30 + 72 - 5;
     }
+
+    @Test
+    public void numberMouseEqualsKeyboardGreaterThanZeroDiscountTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 10.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 20.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 20.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 20.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 20.00));
+        items.add(new EItem("MSI xxx", EItemType.KEYBOARD, 30.00));
+        items.add(new EItem("MSI xxx", EItemType.KEYBOARD, 50.00));
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 160.00;
+    }
+
+    @Test
+    public void numberMouseEqualsKeyboardEqualZeroDiscountTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 100.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 100.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 100.00));
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 300.00;
+    }
+
+    @Test
+    public void numberMouseKeyboardAllEqualsTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+
+        for(int i = 0; i < 3; i++) {
+            items.add(new EItem("Logitech keyboard xxx", EItemType.KEYBOARD, 15.00));
+            items.add(new EItem("Super Logitech Mouse xxx", EItemType.MOUSE, 15.00));
+        }
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+        
+        // Assert
+        assert total == 90.00 - 15.00;
+    }
+
+    @Test
+    public void numberMouseDiffersKeyboardDiscountTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 10.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 20.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 100.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 100.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 100.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.KEYBOARD, 30.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.KEYBOARD, 40.00));
+        items.add(new EItem("Asus Sabertooth xxx", EItemType.KEYBOARD, 50.00));
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 450.00;
+    }
+
+    @Test
+    public void mouseDiscountAndMouseEqualsKeyboardDiscountOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+
+        for (int i = 0; i < 14; i++)
+            items.add(new EItem("Logitech M185", EItemType.MOUSE, 15.00));
+        for (int i = 0; i < 14; i++)
+            items.add(new EItem("Asus Sabertooth xxx", EItemType.KEYBOARD, 20.00));
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 490.00 - 15.00;
+    }
+
+    @Test
+    public void combinedMouseAndProcessorAndEqualsMouseKeyboardDiscountTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+
+        for (int i = 0; i < 11; i++)
+            items.add(new EItem("Logitech M185", EItemType.MOUSE, 15.00));
+        for (int i = 0; i < 11; i++)
+            items.add(new EItem("Asus Sabertooth xxx", EItemType.KEYBOARD, 20.00));
+        for (int i = 0; i < 6; i++)
+            items.add(new EItem("Intel i9 10900k", EItemType.PROCESSOR, 20.00));
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 505.00 - 15.00 - 10.00;
+    }
 }
