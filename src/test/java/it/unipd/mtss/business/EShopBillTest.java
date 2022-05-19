@@ -403,4 +403,20 @@ public class EShopBillTest {
         // Assert
         assert total == 1585.00 - 15.00 - 100.00 - 158.50;
     }
+
+    @Test(expected = BillException.class)
+    public void over30ItemsOrderTest() throws BillException {
+        // Arrange
+        List<EItem> itemList = new LinkedList<>();
+
+        for (int i = 0; i < 31; i++) {
+            itemList.add(new EItem("Asus Sabertooth xxx", EItemType.KEYBOARD, 50.00));
+        }
+
+        // Act
+        bill.getOrderPrice(itemList, user);
+
+        // Assert
+        fail();
+    }
 }

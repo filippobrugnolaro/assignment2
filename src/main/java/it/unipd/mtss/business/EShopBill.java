@@ -26,6 +26,10 @@ public class EShopBill implements Bill {
             throw new BillException("No items on the order");
         }
 
+        if(totalItems > 30) {
+            throw new BillException("Limit of items exceeded");
+        }
+
         getProcessorDiscount(itemsOrdered);
         getMouseDiscount(itemsOrdered);
         getMouseOrKeyBoardDiscount(itemsOrdered);
