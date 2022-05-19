@@ -30,4 +30,8 @@ public class EItem {
     public double getPrice() {
         return price;
     }
+    public void setPrice(double newPrice) {
+        price = newPrice;
+    }
+    public EItemType getEItemType() {return type;}
 }

@@ -54,4 +54,57 @@ public class EShopBillTest {
         // Assert
         assert total == 100.00;
     }
+
+    @Test
+    public void lessThanFiveProcessorDiscountOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 10.00));
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 20.00));
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 30.00));
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 40.00));
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 50.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 60.00));
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 210.00;
+    }
+
+    @Test
+    public void moreThanFiveProcessorDiscountOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 10.00));
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 20.00));
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 30.00));
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 40.00));
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 50.00));
+        items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 60.00));
+        items.add(new EItem("Logitech xxx", EItemType.MOUSE, 70.00));
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 280.00 - 5.00;
+    }
+
+    @Test
+    public void moreThanFiveEqualProcessorDiscountOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+
+        for(int i = 0; i < 6; i++) {
+            items.add(new EItem("Amd xxx", EItemType.PROCESSOR, 60.00));
+        }
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 360.00 - 30.00;
+    }
 }
