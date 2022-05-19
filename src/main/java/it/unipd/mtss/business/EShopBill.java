@@ -18,6 +18,9 @@ public class EShopBill implements Bill {
     public double getOrderPrice(List<EItem> itemsOrdered, User user)
             throws BillException {
         int totalItems = itemsOrdered.size();
+        double totalAmount = itemsOrdered.stream()
+                .mapToDouble(EItem::getPrice)
+                .sum();
 
         if(totalItems == 0) {
             throw new BillException("No items on the order");
@@ -27,11 +30,13 @@ public class EShopBill implements Bill {
         getMouseDiscount(itemsOrdered);
         getMouseOrKeyBoardDiscount(itemsOrdered);
 
-        double totalAmount = itemsOrdered.stream()
+        double totalDiscount = getOverallDiscount(totalAmount);
+
+        double totalDiscountedAmount = itemsOrdered.stream()
                 .mapToDouble(EItem::getPrice)
                 .sum();
 
-        return totalAmount;
+        return totalDiscountedAmount - totalDiscount;
     }
 
     private void getProcessorDiscount(List<EItem> itemsOrdered) {
@@ -84,5 +89,9 @@ public class EShopBill implements Bill {
 
             minItem.ifPresent(eItem -> eItem.setPrice(0.00));
         }
+    }
+
+    private double getOverallDiscount(double totalAmount) {
+        return totalAmount > 1000 ? totalAmount * 0.1 : 0;
     }
 }
