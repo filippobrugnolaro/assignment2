@@ -36,4 +36,9 @@ public class EItemTest {
         fail();
     }
 
+    @Test
+    public void priceGetterTest() {
+        assert mouse.getPrice() == 15.00;
+        assert keyboard.getPrice() == 20.00;
+    }
 }

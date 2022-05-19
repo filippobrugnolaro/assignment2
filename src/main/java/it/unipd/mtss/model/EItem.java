@@ -26,4 +26,8 @@ public class EItem {
         this.type = type;
         this.price = price;
     }
+
+    public double getPrice() {
+        return price;
+    }
 }

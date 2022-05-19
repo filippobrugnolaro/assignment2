@@ -6,13 +6,17 @@ package it.unipd.mtss.business;
 
 import it.unipd.mtss.business.exception.BillException;
 import it.unipd.mtss.model.EItem;
+import it.unipd.mtss.model.EItemType;
 import it.unipd.mtss.model.User;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import static org.junit.Assert.fail;
 
 public class EShopBillTest {
     private EShopBill bill;
@@ -23,15 +27,31 @@ public class EShopBillTest {
         bill = new EShopBill();
     }
 
-    @Test
+    @Test(expected = BillException.class)
     public void EmptyOrderTest() throws BillException {
         // Arrange
-        List<EItem> itemList = new ArrayList<>();
+        List<EItem> itemList = new LinkedList<>();
 
         // Act
-        double total = bill.getOrderPrice(itemList, user);
+        bill.getOrderPrice(itemList, user);
 
         // Assert
-        assert total == 0.00;
+        fail();
+    }
+
+    @Test
+    public void nonEmptyOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+        EItem item1 = new EItem("Logitech xxx", EItemType.MOUSE, 50.00);
+        for(int i = 0; i < 2; i++) {
+            items.add(item1);
+        }
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 100.00;
     }
 }

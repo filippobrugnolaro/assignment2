@@ -17,6 +17,15 @@ public class EShopBill implements Bill {
     @Override
     public double getOrderPrice(List<EItem> itemsOrdered, User user)
             throws BillException {
-        return 0.00;
+        int totalItems = itemsOrdered.size();
+        double totalAmount = itemsOrdered.stream()
+                .mapToDouble(EItem::getPrice)
+                .sum();
+
+        if(totalItems == 0) {
+            throw new BillException("No items on the order");
+        }
+
+        return totalAmount;
     }
 }
