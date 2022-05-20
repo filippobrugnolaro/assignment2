@@ -103,4 +103,28 @@ public class EShopBill implements Bill {
     private double getCommissionAmount(double totalAmount) {
         return totalAmount < 10 ? 2 : 0;
     }
+
+    public List<Order> getUnder18FreeOrders(List<Order> itemOrders) {
+
+        List<User> userList = new ArrayList<>();
+        List<Order> freeOrders = new ArrayList<>();
+
+        ArrayList<Order> eligibleOrders = new ArrayList<>(itemOrders.stream()
+                .filter(item -> !item.getUser().isOver18() &&
+                        item.getOrderTime().isAfter(Order.startFreeOrderTime) &&
+                        item.getOrderTime().isBefore(Order.endFreeOrderTime))
+                .toList());
+
+        while(freeOrders.size() < 10 && eligibleOrders.size() > 0) {
+            int randomIndex = (int)(Math.random() * (eligibleOrders.size()));
+            if(userList.stream().noneMatch(user ->
+                    user == eligibleOrders.get(randomIndex).getUser())
+            ) {
+                userList.add(eligibleOrders.get(randomIndex).getUser());
+                freeOrders.add(eligibleOrders.get(randomIndex));
+            }
+            eligibleOrders.remove(randomIndex);
+        }
+        return freeOrders;
+    }
 }

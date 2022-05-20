@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +21,8 @@ import static org.junit.Assert.fail;
 
 public class EShopBillTest {
     private EShopBill bill;
-    private final User user = new User("TEST", "Test", "Testing", "test@test.com", LocalDate.of(2000, 2, 26));
+    private final User userOver18 = new User("TEST", "Test", "Testing", "test@test.com", LocalDate.of(2000, 2, 26));
+    private final User userUnder18 = new User("TEST", "Test", "Testing", "test@test.com", LocalDate.of(2005, 2, 26));
 
     @Before
     public void before() {
@@ -33,7 +35,7 @@ public class EShopBillTest {
         List<EItem> itemList = new LinkedList<>();
 
         // Act
-        bill.getOrderPrice(itemList, user);
+        bill.getOrderPrice(itemList, userOver18);
 
         // Assert
         fail();
@@ -49,7 +51,7 @@ public class EShopBillTest {
         }
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 100.00;
@@ -67,7 +69,7 @@ public class EShopBillTest {
         items.add(new EItem("Logitech xxx", EItemType.MOUSE, 60.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 210.00;
@@ -86,7 +88,7 @@ public class EShopBillTest {
         items.add(new EItem("Logitech xxx", EItemType.MOUSE, 70.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 280.00 - 5.00;
@@ -102,7 +104,7 @@ public class EShopBillTest {
         }
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 360.00 - 30.00;
@@ -119,7 +121,7 @@ public class EShopBillTest {
         items.add(new EItem("Intel i5 xxx", EItemType.PROCESSOR, 73.41));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 221.41;
@@ -144,7 +146,7 @@ public class EShopBillTest {
         items.add(new EItem("Logitech xxx", EItemType.MOUSE, 7.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 67.00;
@@ -173,7 +175,7 @@ public class EShopBillTest {
         }
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 360 - 30 + 72 - 5;
@@ -193,7 +195,7 @@ public class EShopBillTest {
         items.add(new EItem("MSI xxx", EItemType.KEYBOARD, 50.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 160.00;
@@ -208,7 +210,7 @@ public class EShopBillTest {
         items.add(new EItem("Asus Sabertooth xxx", EItemType.MOTHERBOARD, 100.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 300.00;
@@ -225,7 +227,7 @@ public class EShopBillTest {
         }
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
         
         // Assert
         assert total == 90.00 - 15.00;
@@ -246,7 +248,7 @@ public class EShopBillTest {
         items.add(new EItem("Asus Sabertooth xxx", EItemType.KEYBOARD, 50.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 450.00;
@@ -263,7 +265,7 @@ public class EShopBillTest {
             items.add(new EItem("Asus Sabertooth xxx", EItemType.KEYBOARD, 20.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 490.00 - 15.00;
@@ -282,7 +284,7 @@ public class EShopBillTest {
             items.add(new EItem("Intel i9 10900k", EItemType.PROCESSOR, 20.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 505.00 - 15.00 - 10.00;
@@ -296,7 +298,7 @@ public class EShopBillTest {
         items.add(new EItem("Intel i9 10900k", EItemType.PROCESSOR, 449.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 789.00;
@@ -310,7 +312,7 @@ public class EShopBillTest {
         items.add(new EItem("Intel i9 10900k", EItemType.PROCESSOR, 449.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 980.10;
@@ -330,7 +332,7 @@ public class EShopBillTest {
             items.add(new EItem("Intel i9 10900k", EItemType.PROCESSOR, 449.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 2410.00 - 241.00 - 75.00;
@@ -347,7 +349,7 @@ public class EShopBillTest {
             items.add(new EItem("Intel i2 1024", EItemType.PROCESSOR, 150.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 990.00 - 45.00;
@@ -364,7 +366,7 @@ public class EShopBillTest {
             items.add(new EItem("Logitech M185", EItemType.MOUSE, 15.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 1074.00 - 107.40 - 15.00;
@@ -379,7 +381,7 @@ public class EShopBillTest {
             items.add(new EItem("Logitech M185", EItemType.MOUSE, 15.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 300.00 - 15.00;
@@ -398,7 +400,7 @@ public class EShopBillTest {
             items.add(new EItem("Intel i9 10900k", EItemType.PROCESSOR, 200.00));
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 1585.00 - 15.00 - 100.00 - 158.50;
@@ -414,7 +416,7 @@ public class EShopBillTest {
         }
 
         // Act
-        bill.getOrderPrice(itemList, user);
+        bill.getOrderPrice(itemList, userOver18);
 
         // Assert
         fail();
@@ -428,7 +430,7 @@ public class EShopBillTest {
         items.add(genericMouse);
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 7.00 + 2.00;
@@ -442,7 +444,7 @@ public class EShopBillTest {
         items.add(genericMouse);
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 10.00;
@@ -456,9 +458,148 @@ public class EShopBillTest {
         items.add(genericMouse);
 
         // Act
-        double total = bill.getOrderPrice(items, user);
+        double total = bill.getOrderPrice(items, userOver18);
 
         // Assert
         assert total == 15.00;
+    }
+
+    @Test
+    public void giveAwayWithOnlyOver18UsersOutOfTimeTest() throws BillException {
+        // Arrange
+        List<Order> listOrders = new ArrayList<>();
+        List<EItem> listEItem = new LinkedList<>();
+        listEItem.add(new EItem("Logitech M18", EItemType.MOUSE, 15.00));
+        listOrders.add(new Order(LocalTime.of(17,59,59), userOver18, listEItem, bill.getOrderPrice(listEItem,userOver18)));
+
+        // Act
+        int giftedOrders = bill.getUnder18FreeOrders(listOrders).size();
+
+        // Assert
+        assert giftedOrders == 0;
+    }
+
+    @Test
+    public void giveAwayWithOnlyOver18UsersInTimeTest() throws BillException {
+        // Arrange
+        List<Order> listOrders = new ArrayList<>();
+        List<EItem> listEItem = new LinkedList<>();
+        listEItem.add(new EItem("Logitech M18", EItemType.MOUSE, 15.00));
+        listOrders.add(new Order(LocalTime.of(18,59,59), userOver18, listEItem, bill.getOrderPrice(listEItem,userOver18)));
+
+        // Act
+        int giftedOrders = bill.getUnder18FreeOrders(listOrders).size();
+
+        // Assert
+        assert giftedOrders == 0;
+    }
+
+    @Test
+    public void giveAwayWithOnlyUnder18UsersOutOfTimeTest() throws BillException {
+        // Arrange
+        List<Order> listOrders = new ArrayList<>();
+        List<EItem> listEItem = new LinkedList<>();
+        listEItem.add(new EItem("Logitech M18", EItemType.MOUSE, 15.00));
+        listOrders.add(new Order(LocalTime.of(17,59,59), userUnder18, listEItem, bill.getOrderPrice(listEItem,userUnder18)));
+
+        // Act
+        int giftedOrders = bill.getUnder18FreeOrders(listOrders).size();
+
+        // Assert
+        assert giftedOrders == 0;
+    }
+
+    @Test
+    public void giveAwayWithOnlyUnder18UsersInTimeTest() throws BillException {
+        // Arrange
+        List<Order> listOrders = new ArrayList<>();
+        List<EItem> listEItem = new LinkedList<>();
+        listEItem.add(new EItem("Logitech M18", EItemType.MOUSE, 15.00));
+        listOrders.add(new Order(LocalTime.of(18,59,59), userUnder18, listEItem, bill.getOrderPrice(listEItem,userUnder18)));
+
+        // Act
+        int giftedOrders = bill.getUnder18FreeOrders(listOrders).size();
+
+        // Assert
+        assert giftedOrders == 1;
+    }
+
+    @Test
+    public void giveAwayWithDuplicateUnder18UsersInTimeTest() throws BillException {
+        // Arrange
+        List<Order> listOrders = new ArrayList<>();
+        List<EItem> listEItem = new LinkedList<>();
+        listEItem.add(new EItem("Logitech M18", EItemType.MOUSE, 15.00));
+        listOrders.add(new Order(LocalTime.of(18,59,59), userUnder18, listEItem, bill.getOrderPrice(listEItem,userUnder18)));
+        listOrders.add(new Order(LocalTime.of(18,59,58), userUnder18, listEItem, bill.getOrderPrice(listEItem,userUnder18)));
+
+        // Act
+        int giftedOrders = bill.getUnder18FreeOrders(listOrders).size();
+
+        // Assert
+        assert giftedOrders == 1;
+    }
+
+    @Test
+    public void giveAwayWithDuplicateUnder18UsersInAndOutTimeTest() throws BillException {
+        // Arrange
+        List<Order> listOrders = new ArrayList<>();
+        List<EItem> listEItem = new LinkedList<>();
+        listEItem.add(new EItem("Logitech M18", EItemType.MOUSE, 15.00));
+        listOrders.add(new Order(LocalTime.of(18,59,59), userUnder18, listEItem, bill.getOrderPrice(listEItem,userUnder18)));
+        listOrders.add(new Order(LocalTime.of(18,59,58), userUnder18, listEItem, bill.getOrderPrice(listEItem,userUnder18)));
+        listOrders.add(new Order(LocalTime.of(19,59,58), userUnder18, listEItem, bill.getOrderPrice(listEItem,userUnder18)));
+
+        // Act
+        int giftedOrders = bill.getUnder18FreeOrders(listOrders).size();
+
+        // Assert
+        assert giftedOrders == 1;
+    }
+
+    @Test
+    public void giveAwayWithMixedUserLessThanTenUnder18Test() throws BillException {
+        // Arrange
+        User anotherUserUnder18 = new User("TEST", "Test", "Testing", "test@test.com", LocalDate.of(2006, 2, 26));
+        User anotherUserOver18 = new User("TEST", "Test", "Testing", "test@test.com", LocalDate.of(2000, 1, 4));
+
+        List<Order> listOrders = new ArrayList<>();
+        List<EItem> listEItem = new LinkedList<>();
+
+        listEItem.add(new EItem("Logitech M18", EItemType.MOUSE, 15.00));
+
+        listOrders.add(new Order(LocalTime.of(18,59,59), userUnder18, listEItem, bill.getOrderPrice(listEItem,userUnder18)));
+        listOrders.add(new Order(LocalTime.of(18,59,58), anotherUserUnder18, listEItem, bill.getOrderPrice(listEItem,anotherUserUnder18)));
+
+        listOrders.add(new Order(LocalTime.of(18,59,59), userOver18, listEItem, bill.getOrderPrice(listEItem,userOver18)));
+        listOrders.add(new Order(LocalTime.of(18,59,59), anotherUserOver18, listEItem, bill.getOrderPrice(listEItem,anotherUserOver18)));
+
+        // Act
+        int giftedOrders = bill.getUnder18FreeOrders(listOrders).size();
+
+        // Assert
+        assert giftedOrders == 2;
+    }
+
+    @Test
+    public void giveAwayWithMixedUserMoreThanTenUnder18Test() throws BillException {
+        // Arrange
+        List<Order> listOrders = new ArrayList<>();
+        List<EItem> listEItem = new LinkedList<>();
+
+        listEItem.add(new EItem("Logitech M18", EItemType.MOUSE, 15.00));
+
+        for(int i = 1; i <= 11; i++) {
+            User anotherUserUnder18 = new User("TEST", "Test", "Testing", "test@test.com", LocalDate.of(2006, 4, i));
+            listOrders.add(new Order(LocalTime.of(18,59,59), anotherUserUnder18, listEItem, bill.getOrderPrice(listEItem,anotherUserUnder18)));
+        }
+
+        listOrders.add(new Order(LocalTime.of(18,59,59), userOver18, listEItem, bill.getOrderPrice(listEItem,userOver18)));
+
+        // Act
+        int giftedOrders = bill.getUnder18FreeOrders(listOrders).size();
+
+        // Assert
+        assert giftedOrders == 10;
     }
 }

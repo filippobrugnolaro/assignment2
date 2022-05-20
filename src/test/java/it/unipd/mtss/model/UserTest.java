@@ -12,11 +12,14 @@ import java.time.LocalDate;
 import static org.junit.Assert.fail;
 
 public class UserTest {
-    private User user;
+    private User child, adult;
 
     @Before
     public void setup() {
-        user = new User("CF", "Mario", "Rossi",
+        child = new User("CF", "Mario", "Rossi",
+                "mario.rossi@email.com", LocalDate.of(2010,1,1));
+
+        adult = new User("CF", "Mario", "Rossi",
                 "mario.rossi@email.com", LocalDate.of(2000,1,1));
     }
 
@@ -66,5 +69,11 @@ public class UserTest {
                 "mario.rossi@email.com", null);
 
         fail();
+    }
+
+    @Test
+    public void userOver18Test() {
+        assert !child.isOver18();
+        assert adult.isOver18();
     }
 }

@@ -39,4 +39,8 @@ public class User {
         this.birthdate = birth;
         this.email = email;
     }
+
+    public boolean isOver18() {
+        return LocalDate.now().minusYears(18).isAfter(birthdate);
+    }
 }
