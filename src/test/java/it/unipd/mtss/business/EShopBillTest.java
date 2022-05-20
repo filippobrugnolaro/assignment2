@@ -419,4 +419,46 @@ public class EShopBillTest {
         // Assert
         fail();
     }
+
+    @Test
+    public void lessThanTenTotalAmountOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+        EItem genericMouse = new EItem("Logitech M18", EItemType.MOUSE, 7.00);
+        items.add(genericMouse);
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 7.00 + 2.00;
+    }
+
+    @Test
+    public void equalToTenTotalAmountOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+        EItem genericMouse = new EItem("Logitech M18", EItemType.MOUSE, 10.00);
+        items.add(genericMouse);
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 10.00;
+    }
+
+    @Test
+    public void overThanTenTotalAmountOrderTest() throws BillException {
+        // Arrange
+        List<EItem> items = new ArrayList<>();
+        EItem genericMouse = new EItem("Logitech M18", EItemType.MOUSE, 15.00);
+        items.add(genericMouse);
+
+        // Act
+        double total = bill.getOrderPrice(items, user);
+
+        // Assert
+        assert total == 15.00;
+    }
 }

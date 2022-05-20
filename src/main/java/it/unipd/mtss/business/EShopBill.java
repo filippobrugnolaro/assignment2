@@ -35,12 +35,13 @@ public class EShopBill implements Bill {
         getMouseOrKeyBoardDiscount(itemsOrdered);
 
         double totalDiscount = getOverallDiscount(totalAmount);
+        double commissionAmount = getCommissionAmount(totalAmount);
 
         double totalDiscountedAmount = itemsOrdered.stream()
                 .mapToDouble(EItem::getPrice)
                 .sum();
 
-        return totalDiscountedAmount - totalDiscount;
+        return totalDiscountedAmount - totalDiscount + commissionAmount;
     }
 
     private void getProcessorDiscount(List<EItem> itemsOrdered) {
@@ -97,5 +98,9 @@ public class EShopBill implements Bill {
 
     private double getOverallDiscount(double totalAmount) {
         return totalAmount > 1000 ? totalAmount * 0.1 : 0;
+    }
+
+    private double getCommissionAmount(double totalAmount) {
+        return totalAmount < 10 ? 2 : 0;
     }
 }
